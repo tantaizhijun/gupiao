@@ -1,0 +1,44 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### 去除日志文件
+/log.path_IS_UNDEFINED
+/transaction-logs
+/*.log
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+/logs/
+nmcdpp-intodb/src/main/java/com/ai/nmc/nmcdpp/controller/Test.java
+nmcdpp-intodb/src/test/java/com/ai/nmc/nmcdpp/TiDbTest.java
+nmcdpp-trigger/src/test/java/HdfsTest.java
+nmcdpp-trigger/src/test/java/com/ai/nmc/nmcdpp/ScriptUtilTest.java
+nmcdpp-trigger/src/test/java/com/ai/nmc/nmcdpp/test.groovy
+nmcdpp-trigger/src/test/java/com/ai/nmc/nmcdpp/test.js
+nmcdpp-trigger/src/test/java/com/ai/nmc/nmcdpp/test2.groovy

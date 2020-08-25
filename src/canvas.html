@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>untitle</title>
 
-    <script src="./resource/echarts.min.js"></script>
+    <script src="./echarts.min.js"></script>
     <!--<script src="https://cdn.bootcss.com/echarts/4.8.0/echarts.min.js"></script>-->
 </head>
 <body>
@@ -22,7 +22,10 @@
     <div>-----------------------------华丽的 canvas----------</div>
 
     <!-- ECharts容器-->
+
     <div id="main" style="width: 700px;height:500px;"></div>
+
+
 
 
 
@@ -32,26 +35,32 @@
 
     var mark01 = undefined;
     var mark02 = undefined;
+    var params01 = undefined;
+    var params02 = undefined;
     var isMark = false;
+
     myChart.on("click",function (params) {
+        console.log(params)
         if(isMark){
             clearMark();
             return;
         }
         if(mark01 == undefined){
-            mark01 = params.data[2];
+            mark01 = getLprice(params.data[1],params.data[2]);
+            params01 = params;
             document.getElementById("high_p").value = mark01;
             console.log("m1 " + mark01)
             return;
         }
         if(mark02 == undefined){
-            mark02 = params.data[2];
-            if(new Number(mark02) < new Number(mark01)) {
+            mark02 = getHprice(params.data[1],params.data[2]);
+            if(new Number(mark02) <= new Number(mark01)) {
                 mark02 = undefined;
                 console.log("参数2小于参数1");
                 return;
             }
             if(mark02 != undefined) {
+                params02 = params;
                 document.getElementById("low_p").value = mark02;
                 console.log("m2 " + mark02)
                 isMark = true;
@@ -67,15 +76,52 @@
     //     }
     // })
 
+    myChart.on("mousemove",function (params) {
+        if(mark01 && !mark02) {
+            params02 = params;
+            drawLine()
+        }
+
+    })
+
     function drawLine(mark01,mark02) {
+        let canvasMy = document.getElementsByTagName("canvas");
+        if(!canvasMy){
+            console.log("canvas not found");
+            return;
+        }
+        let ctx = canvasMy[0].getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(params01.event.offsetX,params01.event.offsetY);
+        ctx.lineTo(params02.event.offsetX,params02.event.offsetY);
+        ctx.stroke();
 
     }
+
+
+
     function clearMark() {
         console.log("clear");
         isMark = false;
         mark01 = mark02 = undefined;
+        params01 = params02 = undefined;
     }
 
+
+
+    //获取高价
+    function getHprice(openP,closeP) {
+        if(closeP >= openP) {
+            return closeP;
+        }
+        return openP;
+    }
+    function getLprice(openP,closeP) {
+        if(closeP >= openP) {
+            return openP;
+        }
+        return closeP;
+    }
 
 
     //数据模型 time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
